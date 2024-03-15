@@ -386,11 +386,13 @@ async def check_online_players(game_session):
         if (game_session.player2 is None):
         	continue
         if (time.time() - game_session.last_time_action_1 > 30):
+        	await game_session.player1.send_json({"status": "opponentDisconnect"})
         	await game_session.player1.close()
         	await game_session.player2.send_json({"status": "opponentDisconnect"})
         	await game_session.player2.close()
         	active_sessions.pop(game_session.id)
         elif (time.time() - game_session.last_time_action_2 > 30):
+        	await game_session.player2.send_json({"status": "opponentDisconnect"})
         	await game_session.player2.close()
         	await game_session.player1.send_json({"status": "opponentDisconnect"})
         	await game_session.player1.close()
